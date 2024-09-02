@@ -5,6 +5,8 @@
   "description": "My Electron application description",
   "main": ".vite/build/main.js",
   "scripts": {
+    "build:css": "postcss src/index.css -o dist/output.css",
+    "dev": "concurrently \"vite --config vite.renderer.config.js\" \"cross-env NODE_ENV=development electron .\"",
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
@@ -23,9 +25,17 @@
     "@electron/fuses": "^1.8.0",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
+    "autoprefixer": "^10.4.20",
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
     "electron": "32.0.1",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1",
+    "postcss": "^8.4.44",
+    "postcss-cli": "^11.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^3.4.10",
     "ts-node": "^10.9.2",
     "typescript": "~4.5.4",
     "vite": "^5.4.2"
@@ -35,7 +45,6 @@
     "name": "Kade Angell",
     "email": "kade@angell.fyi"
   },
-  "license": "MIT",
   "dependencies": {
     "electron-squirrel-startup": "^1.0.1"
   }
