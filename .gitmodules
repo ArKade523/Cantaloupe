@@ -1,0 +1,3 @@
+[submodule "src/styles/cantaloupe-styles"]
+	path = src/styles/cantaloupe-styles
+	url = git@bitbucket.org:can-sandbox/cantaloupe-styles.git
