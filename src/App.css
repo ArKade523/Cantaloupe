@@ -1,0 +1,71 @@
+.pane-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    background-color: #282c34;
+    color: white;
+    height: 60px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.arrow-icon {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+  .flip-down {
+    transform: rotate(0deg);
+  }
+  
+  .flip-up {
+    transform: rotate(180deg);
+  }
+
+.message-details, .message-table-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #e0e0e0;
+    height: 60px;
+    width: calc(100% - 40px);
+}
+.message-details > p, .message-details > h2, .message-table-label > * {
+    padding: 0 10px;
+    text-align: left;
+    width: 100%;
+}
+
+.message-item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.message-table-label {
+    background-color: #282c34;
+    color: white;
+    padding-left: 40px;
+}
+
+.message-list {
+    overflow-y: auto;
+    height: calc(100% - 120px);
+}
+
+.signal-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #e0e0e0;
+    height: 60px;
+}
+.signal-item > p, .signal-item > h3 {
+    padding: 0 10px;
+    text-align: left;
+    width: 100%;
+}

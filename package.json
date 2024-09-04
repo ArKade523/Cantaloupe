@@ -5,7 +5,7 @@
   "description": "My Electron application description",
   "main": ".vite/build/main.js",
   "scripts": {
-    "build:css": "postcss src/index.css -o dist/output.css",
+    "build:css": "postcss src/index.css -o dist/output.css --watch",
     "dev": "concurrently \"vite --config vite.renderer.config.js\" \"cross-env NODE_ENV=development electron .\"",
     "start": "electron-forge start",
     "package": "electron-forge package",
@@ -23,6 +23,8 @@
     "@electron-forge/plugin-fuses": "^7.4.0",
     "@electron-forge/plugin-vite": "^7.4.0",
     "@electron/fuses": "^1.8.0",
+    "@types/react-beautiful-dnd": "^13.1.8",
+    "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "autoprefixer": "^10.4.20",
@@ -46,6 +48,9 @@
     "email": "kade@angell.fyi"
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.1"
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "electron-squirrel-startup": "^1.0.1",
+    "react-beautiful-dnd": "^13.1.1"
   }
 }
