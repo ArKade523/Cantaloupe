@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Message from '../../types/Message'
+import { Message, toggleMessage } from '../../types/Message'
 import Signal from '../../types/Signal'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import MessageItem from './MessageItem';
@@ -19,44 +19,52 @@ function DBCEditor() {
 
   useEffect(() => {
     const newMessage1: Message = {
-      name: "test",
-      multiplexed: false,
-      arb_id: 1,
-      signals: [
-        {
-          name: "test_signal",
-          start_bit: 0,
-          size: 8,
-          endianess: "big",
-          is_signed: false,
-          factor: 1,
-          offset: 0,
-          min: 0,
-          max: 255
-        },
-        {
-          name: "test_signal2",
-          start_bit: 8,
-          size: 8,
-          endianess: "big",
-          is_signed: false,
-          factor: 1,
-          offset: 0,
-          min: 0,
-          max: 255
-        }
-      ]
+        name: "test",
+        multiplexed: false,
+        arb_id: 1,
+        signals: [
+            {
+                name: "test_signal",
+                start_bit: 0,
+                size: 8,
+                endianess: "big",
+                is_signed: false,
+                factor: 1,
+                offset: 0,
+                min: 0,
+                max: 255
+            },
+            {
+                name: "test_signal2",
+                start_bit: 8,
+                size: 8,
+                endianess: "big",
+                is_signed: false,
+                factor: 1,
+                offset: 0,
+                min: 0,
+                max: 255
+            }
+        ],
+        toggled: false
     }
 
     const newMessage2: Message = {
-      name: "test2",
-      multiplexed: true,
-      arb_id: 2,
-      signals: []
+        name: "test2",
+        multiplexed: true,
+        arb_id: 2,
+        signals: [],
+        toggled: false
     }
 
     setMessages([...messages, newMessage1, newMessage2])
   }, [])
+
+  const handleToggle = (id: number) => {
+        setMessages(messages.map((msg) =>
+            msg.arb_id === id ? toggleMessage(msg) : msg
+        ));
+  };
 
   return (
     <div className="bg-accent">
@@ -79,7 +87,7 @@ function DBCEditor() {
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}
                                     >
-                                        <MessageItem message={message} />
+                                        <MessageItem message={message} onToggle={handleToggle} />
                                     </div>
                                 )}
                             </Draggable>
