@@ -4,13 +4,14 @@
 
 .pane-header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    background-color: #282c34;
-    color: white;
-    height: 60px;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
+    background-color: var(--background-accent);
+    color: var(--text-light);
+    flex-direction: column;
+}
+.pane-header > hr {
+    border: 1px solid var(--primary);
+    width: 80%;
+    margin-left: 0;
 }
 
 .arrow-icon {
@@ -38,8 +39,8 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    background-color: #f9f9f9;
-    border-bottom: 1px solid #e0e0e0;
+    background-color: var(--primary);
+    border-bottom: 1px solid var(--secondary);
     height: 60px;
 }
 .message-details > p, .message-details > h2, .message-table-label > * {
@@ -55,8 +56,8 @@
 }
 
 .message-table-label {
-    background-color: #282c34;
-    color: white;
+    background-color: var(--background-accent);
+    color: var(--text-light);
     padding-left: 40px;
 }
 
@@ -68,12 +69,13 @@
     display: flex;
     flex-direction: column;
     background-color: var(--background-accent);
-    color: white;
+    color: var(--text-light);
     width: var(--sidebar-width);
     height: 100%;
 }
 .sidebar > h2 {
     text-align: center;
+    padding: 1rem;
 }
 .sidebar > hr {
     border: 1px solid var(--primary);
@@ -81,8 +83,8 @@
 }
 .sidebar button {
     background-color: var(--background-accent);
-    color: white;
-    padding: 10px 20px;
+    color: var(--text-light);
+    padding: .5rem 1rem;
     text-align: left;
     border: none;
     cursor: pointer;
@@ -99,13 +101,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 20px;
-    background-color: #f9f9f9;
-    border-bottom: 1px solid #e0e0e0;
-    height: 60px;
+    padding: 0 1rem;
+    background-color: var(--primary);
+    border-bottom: 1px solid var(--secondary);
+    height: 3rem;
 }
 .signal-item > p, .signal-item > h3 {
-    padding: 0 10px;
+    padding: 0 .5rem;
     text-align: left;
     width: 100%;
 }

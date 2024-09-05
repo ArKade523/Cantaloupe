@@ -68,36 +68,39 @@ function DBCEditor() {
 
   return (
     <div className="inner-application">
-      <h1 className="pane-header">DBC Editor</h1>
-      <div className="message-list">
-        <div className="message-table-label">
-            <h3>Name</h3>
-            <h3>Multiplex Status</h3>
-            <h3>Arbitration ID</h3>
+        <div className="pane-header">
+            <h1 className="pane-header">DBC Editor</h1>
+            <hr />
         </div>
-        <DragDropContext onDragEnd={handleOnDragEnd}>
-            <Droppable droppableId="messages">
-                {(provided, snapshot) => (
-                    <div ref={provided.innerRef} {...provided.droppableProps}>
-                        {messages.map((message, index) => (
-                            <Draggable key={index} draggableId={`${index}`} index={index}>
-                                {(provided) => (
-                                    <div
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                    >
-                                        <MessageItem message={message} onToggle={handleToggle} />
-                                    </div>
-                                )}
-                            </Draggable>
-                        ))}
-                        {provided.placeholder}
-                    </div>
-                )}
-            </Droppable>
-        </DragDropContext>
-      </div>
+        <div className="message-list">
+            <div className="message-table-label">
+                <h3>Name</h3>
+                <h3>Multiplex Status</h3>
+                <h3>Arbitration ID</h3>
+            </div>
+            <DragDropContext onDragEnd={handleOnDragEnd}>
+                <Droppable droppableId="messages">
+                    {(provided, snapshot) => (
+                        <div ref={provided.innerRef} {...provided.droppableProps}>
+                            {messages.map((message, index) => (
+                                <Draggable key={index} draggableId={`${index}`} index={index}>
+                                    {(provided) => (
+                                        <div
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
+                                        >
+                                            <MessageItem message={message} onToggle={handleToggle} />
+                                        </div>
+                                    )}
+                                </Draggable>
+                            ))}
+                            {provided.placeholder}
+                        </div>
+                    )}
+                </Droppable>
+            </DragDropContext>
+        </div>
     </div>
   )
 }
