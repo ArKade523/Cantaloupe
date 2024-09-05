@@ -67,7 +67,7 @@ function DBCEditor() {
   };
 
   return (
-    <div className="bg-accent">
+    <div className="inner-application">
       <h1 className="pane-header">DBC Editor</h1>
       <div className="message-list">
         <div className="message-table-label">

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Message } from "src/types/Message";
 import SignalItem from "./SignalItem";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 function MessageItem({ message, onToggle }: { message: Message, onToggle: (message_arb_id: number) => void }) {
     return (
