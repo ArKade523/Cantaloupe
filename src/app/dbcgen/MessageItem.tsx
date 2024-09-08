@@ -1,25 +1,59 @@
 import React, { useState } from "react";
-import { Message } from "src/types/Message";
+import { Message, MessageWrapper } from "src/types/Message";
 import SignalItem from "./SignalItem";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
-function MessageItem({ message, onToggle }: { message: Message, onToggle: (message_arb_id: number) => void }) {
+function MessageItem(
+    { 
+        messageWrapper,
+        setMessageWrapper
+    }: { 
+        messageWrapper: MessageWrapper 
+        setMessageWrapper: (newMessageWrapper: MessageWrapper) => void
+    }) {
+
+    const handleToggle = () => {
+        setMessageWrapper({ 
+            message: messageWrapper.message, 
+            toggled: !messageWrapper.toggled 
+        });
+    };
     return (
         <div className="message-item">
             <div className="message-details">
                 <FontAwesomeIcon
                     icon={faChevronDown}
-                    onClick={ () => onToggle(message.arb_id) }
-                    className={`arrow-icon ${message.toggled ? 'flip-up' : 'flip-down'}`}
+                    onClick={handleToggle}
+                    className={`arrow-icon ${messageWrapper.toggled ? 'flip-up' : 'flip-down'}`}
                 />
-                <h2 id="message-name">{message.name}</h2>
-                <p>{message.multiplexed ? "Multiplexed" : "Not Multiplexed"}</p>
-                <p>{message.arb_id}</p>
+                <div id="message-name">
+                    <textarea value={messageWrapper.message.name} 
+                        onChange={e => 
+                        setMessageWrapper({ 
+                            message: { ...messageWrapper.message, name: e.target.value }, 
+                            toggled: messageWrapper.toggled 
+                        })
+                    }>
+                        {messageWrapper.message.name}
+                    </textarea>
+                </div>
+                <div>{messageWrapper.message.multiplexed ? "Multiplexed" : "Not Multiplexed"}</div>
+                <div>
+                    <textarea value={messageWrapper.message.arb_id}
+                        onChange={e => 
+                        setMessageWrapper({ 
+                            message: { ...messageWrapper.message, arb_id: parseInt(e.target.value) }, // TODO: Add validation, error handling
+                            toggled: messageWrapper.toggled 
+                        }) 
+                    }>
+                        {messageWrapper.message.arb_id}
+                    </textarea>
+                </div>
             </div>
-            {message.toggled && (
+            {messageWrapper.toggled && (
                 <div className="signals-container">
-                    {message.signals.map((signal, index) => (
+                    {messageWrapper.message.signals.map((signal, index) => (
                         <SignalItem key={index} signal={signal} />
                     ))}
                 </div>    

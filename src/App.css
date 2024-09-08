@@ -8,6 +8,9 @@
     color: var(--text-light);
     flex-direction: column;
 }
+.pane-header > h1 {
+    padding: .7rem 0;
+}
 .pane-header > hr {
     border: 1px solid var(--primary);
     width: 80%;
@@ -39,14 +42,22 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    background-color: var(--primary);
-    border-bottom: 1px solid var(--secondary);
+    background-color: var(--table-background);
+    border-bottom: 1px solid var(--table-border);
     height: 60px;
 }
-.message-details > p, .message-details > h2, .message-table-label > * {
+.message-details > div, .message-table-label > * {
     padding: 0 10px;
     text-align: left;
     width: 100%;
+}
+.message-details textarea {
+    resize: none;
+    border: none;
+    background-color: var(--table-background);
+    font-family: inherit;
+    font-size: inherit;
+    height: 1.25rem; /* TODO: verify this resizes correctly */
 }
 
 .message-item {
@@ -102,8 +113,8 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 1rem;
-    background-color: var(--primary);
-    border-bottom: 1px solid var(--secondary);
+    background-color: var(--table-background);
+    border-bottom: 1px solid var(--table-border);
     height: 3rem;
 }
 .signal-item > p, .signal-item > h3 {

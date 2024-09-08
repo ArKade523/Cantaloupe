@@ -5,9 +5,9 @@ export type Message = {
     arb_id: number,
     signals: Signal[],
     name: string,
-    toggled: boolean,
 };
 
-export function toggleMessage(message: Message) {
-    return { ...message, toggled: !message.toggled }
+export type MessageWrapper = {
+    message: Message;
+    toggled: boolean;
 }
