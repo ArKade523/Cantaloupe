@@ -10,4 +10,5 @@ export type Message = {
 export type MessageWrapper = {
     message: Message;
     toggled: boolean;
+    selected: boolean;
 }

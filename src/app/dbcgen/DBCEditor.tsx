@@ -10,6 +10,10 @@ const initialMessages: Message[] = [
         { name: 'Signal 2', start_bit: 8, size: 8, endianess: 'big', is_signed: false, factor: 1, offset: 0, min: 0, max: 255 },
     ] },
     { name: 'Message 2', multiplexed: true, arb_id: 456, signals: [] },
+    { name: 'Message 3', multiplexed: true, arb_id: 0, signals: [] },
+    { name: 'Message 4', multiplexed: true, arb_id: 1, signals: [] },
+    { name: 'Message 5', multiplexed: true, arb_id: 2, signals: [] },
+    { name: 'Message 6', multiplexed: true, arb_id: 3, signals: [] },
 ];
 
 function DBCEditor() {
@@ -17,10 +21,15 @@ function DBCEditor() {
         initialMessages.map(message => {
             return {
                 message,
-                toggled: false
+                toggled: false,
+                selected: false
             } as MessageWrapper
         })
     )
+
+    const [selectedMessages, setSelectedMessages] = useState<number[]>([]);
+    const [lastSelectedIndex, setLastSelectedIndex] = useState<number | null>(null);
+    const [clipboard, setClipboard] = useState<MessageWrapper[]>([]);
 
     const setMessageWrapper = (index: number, newMessageWrapper: MessageWrapper) => {
         setMessageWrappers(prevWrappers =>
@@ -37,6 +46,52 @@ function DBCEditor() {
 
         setMessageWrappers(updatedMessages)
     }
+
+    const handleSelect = (index: number, event: React.MouseEvent) => {
+        setMessageWrappers((prevWrappers) => {
+            let newWrappers = [...prevWrappers];
+
+            if (event.metaKey || event.ctrlKey) {
+                newWrappers[index].selected = !newWrappers[index].selected;
+            } else if (event.shiftKey && lastSelectedIndex !== null) {
+                // Select range
+                const range = [lastSelectedIndex, index].sort((a, b) => a - b);
+                for (let i = range[0]; i <= range[1]; i++) {
+                    newWrappers[i].selected = true;
+                }
+            } else {
+                newWrappers = newWrappers.map((wrapper, i) => ({
+                    ...wrapper,
+                    selected: i === index,
+                }));
+            }
+
+            setLastSelectedIndex(index);
+            return newWrappers;
+        });
+    };
+
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [selectedMessages, clipboard]);
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+        if ((event.metaKey || event.ctrlKey) && event.key === 'c') {
+            // Copy selected messages
+            const copiedMessages = selectedMessages.map(i => messageWrappers[i]);
+            setClipboard(copiedMessages);
+        } else if ((event.metaKey || event.ctrlKey) && event.key === 'v') {
+            // Paste messages
+            setMessageWrappers(prev => [...prev, ...clipboard]);
+        } else if ((event.metaKey || event.ctrlKey) && event.key === 'a') {
+            // Select all messages
+            setMessageWrappers(prev => prev.map(wrapper => ({ ...wrapper, selected: true })));
+        } else if (event.key === 'Escape') {
+            // Deselect all messages
+            setMessageWrappers(prev => prev.map(wrapper => ({ ...wrapper, selected: false })));
+        }
+    };
 
     return (
         <div className="inner-application">
@@ -61,6 +116,7 @@ function DBCEditor() {
                                                 ref={provided.innerRef}
                                                 {...provided.draggableProps}
                                                 {...provided.dragHandleProps}
+                                                onClick={(e) => handleSelect(index, e)}
                                             >
                                                 <MessageItem 
                                                     key={messageWrapper.message.arb_id}

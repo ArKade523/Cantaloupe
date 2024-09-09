@@ -16,11 +16,12 @@ function MessageItem(
     const handleToggle = () => {
         setMessageWrapper({ 
             message: messageWrapper.message, 
-            toggled: !messageWrapper.toggled 
+            toggled: !messageWrapper.toggled,
+            selected: messageWrapper.selected 
         });
     };
     return (
-        <div className="message-item">
+        <div className={`message-item ${messageWrapper.selected ? 'selected' : ''}`}>
             <div className="message-details">
                 <FontAwesomeIcon
                     icon={faChevronDown}
@@ -32,7 +33,8 @@ function MessageItem(
                         onChange={e => 
                         setMessageWrapper({ 
                             message: { ...messageWrapper.message, name: e.target.value }, 
-                            toggled: messageWrapper.toggled 
+                            toggled: messageWrapper.toggled,
+                            selected: messageWrapper.selected 
                         })
                     }>
                         {messageWrapper.message.name}
@@ -44,7 +46,8 @@ function MessageItem(
                         onChange={e => 
                         setMessageWrapper({ 
                             message: { ...messageWrapper.message, arb_id: parseInt(e.target.value) }, // TODO: Add validation, error handling
-                            toggled: messageWrapper.toggled 
+                            toggled: messageWrapper.toggled,
+                            selected: messageWrapper.selected
                         }) 
                     }>
                         {messageWrapper.message.arb_id}

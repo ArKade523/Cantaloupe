@@ -65,6 +65,10 @@
     flex-direction: column;
     width: 100%;
 }
+.message-item.selected {
+    background-color: var(--secondary);
+    border: 1px solid var(--primary);
+}
 
 .message-table-label {
     background-color: var(--background-accent);
