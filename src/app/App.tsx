@@ -8,7 +8,7 @@ function App() {
 
     return (
         <>
-            <Sidebar setCurrentPage={setCurrentPage}/>
+            <Sidebar setCurrentPage={setCurrentPage} currentPage={currentPage}/>
             {
                 currentPage === Pages.DBCEDITOR && <DBCEditor />
             }

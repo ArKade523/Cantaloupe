@@ -95,10 +95,6 @@ function DBCEditor() {
 
     return (
         <div className="inner-application">
-            <div className="pane-header">
-                <h1 className="pane-header">DBC Editor</h1>
-                <hr />
-            </div>
             <div className="message-list">
                 <div className="message-table-label">
                     <h3>Name</h3>
