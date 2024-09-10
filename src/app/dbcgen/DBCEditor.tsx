@@ -30,6 +30,7 @@ function DBCEditor() {
     const [lastSelectedIndex, setLastSelectedIndex] = useState<number | null>(null);
 
     const messageWrappersRef = useRef(messageWrappers);
+    const messageListRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         messageWrappersRef.current = messageWrappers;
@@ -74,6 +75,23 @@ function DBCEditor() {
         });
     };
 
+    const handleDeselectAll = () => {
+        setMessageWrappers(prevWrappers =>
+            prevWrappers.map(wrapper => ({
+                ...wrapper,
+                selected: false,
+            }))
+        );
+        setLastSelectedIndex(null); // Clear the last selected index
+    };
+
+    const handleContainerClick = (event: MouseEvent) => {
+        // If the click target is outside the message list, deselect all
+        if (messageListRef.current && !messageListRef.current.contains(event.target as Node)) {
+            handleDeselectAll();
+        }
+    };
+
     const handleKeyDown = (event: KeyboardEvent) => {
         if ((event.metaKey || event.ctrlKey) && event.key === 'c') {
             // Copy selected messages
@@ -84,7 +102,6 @@ function DBCEditor() {
         } else if ((event.metaKey || event.ctrlKey) && event.key === 'v') {
             // Paste messages
             const clipboardData = window.electronClipboard.readText(); // Read from Electron clipboard
-            console.log('clipboardData:', clipboardData);
             if (clipboardData) {
                 try {
                     const pastedMessages = JSON.parse(clipboardData); // Deserialize the pasted messages
@@ -101,11 +118,13 @@ function DBCEditor() {
     };
 
     useEffect(() => {
-        console.log('Attaching keydown listener');
         window.addEventListener('keydown', handleKeyDown);
+
+        // Attach click listener to the container
+        document.addEventListener('click', handleContainerClick);
         return () => {
-            console.log('Detaching keydown listener');
             window.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener('click', handleContainerClick);
         }
     }, []);
 
@@ -113,14 +132,19 @@ function DBCEditor() {
         <div className="inner-application">
             <div className="message-list">
                 <div className="message-table-label">
-                    <h3>Name</h3>
-                    <h3>Multiplex Status</h3>
-                    <h3>Arbitration ID</h3>
+                    <th>Name</th>
+                    <th>Multiplex Status</th>
+                    <th>Arbitration ID</th>
                 </div>
                 <DragDropContext onDragEnd={handleOnDragEnd}>
                     <Droppable droppableId="messages">
                         {(provided, snapshot) => (
-                            <div ref={provided.innerRef} {...provided.droppableProps}>
+                            <div ref={(el) => {
+                                    messageListRef.current = el;
+                                    provided.innerRef(el)
+                                }} 
+                                {...provided.droppableProps}
+                            >
                                 {messageWrappers.map((messageWrapper, index) => (
                                     <Draggable key={index} draggableId={`${index}`} index={index}>
                                         {(provided) => (
@@ -133,7 +157,9 @@ function DBCEditor() {
                                                 <MessageItem 
                                                     key={messageWrapper.message.arb_id}
                                                     messageWrapper={messageWrapper}
-                                                    setMessageWrapper={(newMessageWrapper) => setMessageWrapper(index, newMessageWrapper)}
+                                                    setMessageWrapper={
+                                                        (newMessageWrapper) => setMessageWrapper(index, newMessageWrapper)
+                                                    }
                                                 />
                                             </div>
                                         )}

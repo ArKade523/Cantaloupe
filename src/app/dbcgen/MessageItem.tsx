@@ -3,6 +3,7 @@ import { Message, MessageWrapper } from "src/types/Message";
 import SignalItem from "./SignalItem";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import ResizableInput from "../components/ResizableInput";
 
 function MessageItem(
     { 
@@ -30,7 +31,7 @@ function MessageItem(
                     className={`arrow-icon ${messageWrapper.toggled ? 'flip-up' : 'flip-down'}`}
                 />
                 <div id="message-name">
-                    <input value={messageWrapper.message.name} 
+                    <ResizableInput value={messageWrapper.message.name}
                         onChange={e => 
                         setMessageWrapper({ 
                             message: { ...messageWrapper.message, name: e.target.value }, 
@@ -41,7 +42,7 @@ function MessageItem(
                 </div>
                 <div>{messageWrapper.message.multiplexed ? "Multiplexed" : "Not Multiplexed"}</div>
                 <div>
-                    <input value={messageWrapper.message.arb_id}
+                    <ResizableInput value={messageWrapper.message.arb_id.toString()}
                         onChange={e => 
                         setMessageWrapper({ 
                             message: { ...messageWrapper.message, arb_id: parseInt(e.target.value) }, // TODO: Add validation, error handling

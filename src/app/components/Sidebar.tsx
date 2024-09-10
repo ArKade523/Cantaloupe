@@ -92,7 +92,7 @@ function Sidebar({ currentPage, setCurrentPage }: { currentPage: Pages, setCurre
             >
                 <FontAwesomeIcon icon={faGears} />{!collapsed && ' Scripting'}
             </button>
-            <div className={`margin-top-auto ${collapsed && 'flex-column'}`}>
+            <div className={`margin-top-auto ${collapsed && 'flex-column-reverse'}`}>
                 <button 
                     className={currentPage == Pages.PROFILE ? 'active' : ''} 
                     onClick={() => setCurrentPage(Pages.PROFILE)}
