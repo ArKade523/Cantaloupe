@@ -31,12 +31,18 @@
 .inner-application {
     height: calc(100% - 60px);
     flex-grow: 1;
+    margin-left: var(--sidebar-width);
 }
 
 .margin-top-auto {
     margin-top: auto;
 }
 
+.message-table-label {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
 .message-details, .message-table-label {
     display: flex;
     align-items: center;
@@ -80,10 +86,6 @@
     padding-left: 40px;
 }
 
-.message-list {
-    overflow-y: auto;
-}
-
 .sidebar {
     display: flex;
     flex-direction: column;
@@ -91,6 +93,7 @@
     color: var(--text-light);
     width: var(--sidebar-width);
     height: 100%;
+    position: fixed;
 }
 .sidebar > h2 {
     text-align: center;

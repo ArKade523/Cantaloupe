@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Message, MessageWrapper } from '../../types/Message'
-import Signal from '../../types/Signal'
+// import Signal from '../../types/Signal'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import MessageItem from './MessageItem';
 
@@ -27,9 +27,13 @@ function DBCEditor() {
         })
     )
 
-    const [selectedMessages, setSelectedMessages] = useState<number[]>([]);
     const [lastSelectedIndex, setLastSelectedIndex] = useState<number | null>(null);
-    const [clipboard, setClipboard] = useState<MessageWrapper[]>([]);
+
+    const messageWrappersRef = useRef(messageWrappers);
+
+    useEffect(() => {
+        messageWrappersRef.current = messageWrappers;
+      }, [messageWrappers]);
 
     const setMessageWrapper = (index: number, newMessageWrapper: MessageWrapper) => {
         setMessageWrappers(prevWrappers =>
@@ -54,7 +58,6 @@ function DBCEditor() {
             if (event.metaKey || event.ctrlKey) {
                 newWrappers[index].selected = !newWrappers[index].selected;
             } else if (event.shiftKey && lastSelectedIndex !== null) {
-                // Select range
                 const range = [lastSelectedIndex, index].sort((a, b) => a - b);
                 for (let i = range[0]; i <= range[1]; i++) {
                     newWrappers[i].selected = true;
@@ -71,27 +74,40 @@ function DBCEditor() {
         });
     };
 
-    useEffect(() => {
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [selectedMessages, clipboard]);
-
     const handleKeyDown = (event: KeyboardEvent) => {
         if ((event.metaKey || event.ctrlKey) && event.key === 'c') {
             // Copy selected messages
-            const copiedMessages = selectedMessages.map(i => messageWrappers[i]);
-            setClipboard(copiedMessages);
+
+            const copiedMessages = messageWrappersRef.current.filter(wrapper => wrapper.selected);
+            const serializedMessages = JSON.stringify(copiedMessages); // Serialize to a string
+            window.electronClipboard.writeText(serializedMessages); // Use Electron clipboard API
         } else if ((event.metaKey || event.ctrlKey) && event.key === 'v') {
             // Paste messages
-            setMessageWrappers(prev => [...prev, ...clipboard]);
-        } else if ((event.metaKey || event.ctrlKey) && event.key === 'a') {
-            // Select all messages
-            setMessageWrappers(prev => prev.map(wrapper => ({ ...wrapper, selected: true })));
-        } else if (event.key === 'Escape') {
-            // Deselect all messages
-            setMessageWrappers(prev => prev.map(wrapper => ({ ...wrapper, selected: false })));
+            const clipboardData = window.electronClipboard.readText(); // Read from Electron clipboard
+            console.log('clipboardData:', clipboardData);
+            if (clipboardData) {
+                try {
+                    const pastedMessages = JSON.parse(clipboardData); // Deserialize the pasted messages
+                    setMessageWrappers(prev => 
+                        [...prev, ...pastedMessages.map((wrapper: MessageWrapper) => 
+                            ({ ...wrapper, selected: false })
+                        )]
+                    );
+                } catch (error) {
+                    console.error('Failed to parse clipboard data:', error);
+                }
+            }
         }
     };
+
+    useEffect(() => {
+        console.log('Attaching keydown listener');
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            console.log('Detaching keydown listener');
+            window.removeEventListener('keydown', handleKeyDown);
+        }
+    }, []);
 
     return (
         <div className="inner-application">
