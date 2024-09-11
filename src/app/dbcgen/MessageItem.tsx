@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { Message, MessageWrapper } from "src/types/Message";
+import React from "react";
+import { MessageWrapper } from "src/types/Message";
 import SignalItem from "./SignalItem";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import ResizableInput from "../components/ResizableInput";
 
 function MessageItem(
@@ -25,11 +25,19 @@ function MessageItem(
     return (
         <div className={`message-item ${messageWrapper.selected ? 'selected' : ''}`}>
             <div className="message-details">
-                <FontAwesomeIcon
-                    icon={faChevronDown}
-                    onClick={handleToggle}
-                    className={`arrow-icon ${messageWrapper.toggled ? 'flip-up' : 'flip-down'}`}
-                />
+                {messageWrapper.message.signals.length > 0 ? (
+                    <FontAwesomeIcon 
+                        icon={faChevronDown} 
+                        onClick={handleToggle} 
+                        className={`arrow-icon ${messageWrapper.toggled ? 'flip-up' : 'flip-down'}`} 
+                    />
+                ) : (
+                    <FontAwesomeIcon 
+                        icon={faChevronDown} 
+                        className="arrow-icon" 
+                        color="#aaa"
+                    />
+                )}
                 <div id="message-name">
                     <ResizableInput value={messageWrapper.message.name}
                         onChange={e => 

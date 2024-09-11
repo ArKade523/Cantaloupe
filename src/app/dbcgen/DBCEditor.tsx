@@ -87,7 +87,8 @@ function DBCEditor() {
 
     const handleContainerClick = (event: MouseEvent) => {
         // If the click target is outside the message list, deselect all
-        if (messageListRef.current && !messageListRef.current.contains(event.target as Node)) {
+        if (messageListRef.current && 
+            !messageListRef.current.contains(event.target as Node)) {
             handleDeselectAll();
         }
     };
@@ -114,6 +115,9 @@ function DBCEditor() {
                     console.error('Failed to parse clipboard data:', error);
                 }
             }
+        } else if (event.key === 'Escape') {
+            // Deselect all messages
+            handleDeselectAll();
         }
     };
 
