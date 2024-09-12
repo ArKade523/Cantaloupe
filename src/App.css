@@ -152,3 +152,34 @@
     text-align: left;
     width: 100%;
 }
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    height: 6rem;
+    width: 100%;
+    background-color: var(--table-background);
+}
+.toolbar button {
+    background-color: var(--table-background);
+    color: var(--text-light);
+    padding: 1rem;
+    border: none;
+    cursor: pointer;
+}
+.toolbar button:hover {
+    background-color: #ccc;
+}
+.tool-section {
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    border-right: 2px solid #aaa;
+    border-left: 2px solid #aaa;
+}
+.tool-section-subgroup {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+
+}

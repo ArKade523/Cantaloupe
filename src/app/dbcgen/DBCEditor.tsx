@@ -3,6 +3,8 @@ import { Message, MessageWrapper } from '../../types/Message'
 // import Signal from '../../types/Signal'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import MessageItem from './MessageItem';
+import Toggle from '../components/Toggle';
+import { faPen, faStop } from '@fortawesome/free-solid-svg-icons';
 
 const initialMessages: Message[] = [
     { name: 'Message 1', multiplexed: false, arb_id: 123, signals: [
@@ -28,6 +30,7 @@ function DBCEditor() {
     )
 
     const [lastSelectedIndex, setLastSelectedIndex] = useState<number | null>(null);
+    const [toggleEdit, setToggleEdit] = useState<boolean>(false);
 
     const messageWrappersRef = useRef(messageWrappers);
     const messageListRef = useRef<HTMLDivElement>(null);
@@ -134,6 +137,43 @@ function DBCEditor() {
 
     return (
         <div className="inner-application">
+            <div className="toolbar">
+                <div className="tool-section">
+                    <Toggle onToggle={() => {setToggleEdit(!toggleEdit)}} 
+                        isToggled={toggleEdit} 
+                        onSVG={faPen} 
+                        offSVG={faStop} 
+                        color={toggleEdit ? '#495' : '#f54'}
+                        fontSize="2rem"
+                    />
+                    <div className="tool-section-subgroup">
+                        <Toggle onToggle={() => {setToggleEdit(!toggleEdit)}} 
+                            isToggled={toggleEdit} 
+                            onSVG={faPen} 
+                            offSVG={faStop} 
+                            color={toggleEdit ? 'green' : 'red'}
+                        />
+                        <Toggle onToggle={() => {setToggleEdit(!toggleEdit)}} 
+                            isToggled={toggleEdit} 
+                            onSVG={faPen} 
+                            offSVG={faStop} 
+                            color={toggleEdit ? 'green' : 'red'}
+                        />
+                        <Toggle onToggle={() => {setToggleEdit(!toggleEdit)}} 
+                            isToggled={toggleEdit} 
+                            onSVG={faPen} 
+                            offSVG={faStop} 
+                            color={toggleEdit ? 'green' : 'red'}
+                        />
+                        <Toggle onToggle={() => {setToggleEdit(!toggleEdit)}} 
+                            isToggled={toggleEdit} 
+                            onSVG={faPen} 
+                            offSVG={faStop} 
+                            color={toggleEdit ? 'green' : 'red'}
+                        />
+                    </div>
+                </div>
+            </div>
             <div className="message-list">
                 <div className="message-table-label">
                     <th>Name</th>
@@ -161,6 +201,7 @@ function DBCEditor() {
                                                 <MessageItem 
                                                     key={messageWrapper.message.arb_id}
                                                     messageWrapper={messageWrapper}
+                                                    toggleEdit={toggleEdit}
                                                     setMessageWrapper={
                                                         (newMessageWrapper) => setMessageWrapper(index, newMessageWrapper)
                                                     }

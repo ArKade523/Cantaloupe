@@ -5,13 +5,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import ResizableInput from "../components/ResizableInput";
 
-function MessageItem(
-    { 
+function MessageItem({ 
         messageWrapper,
-        setMessageWrapper
-    }: { 
-        messageWrapper: MessageWrapper 
-        setMessageWrapper: (newMessageWrapper: MessageWrapper) => void
+        setMessageWrapper,
+        toggleEdit
+    } : { 
+        messageWrapper: MessageWrapper,
+        setMessageWrapper: (newMessageWrapper: MessageWrapper) => void,
+        toggleEdit: boolean
     }) {
 
     const handleToggle = () => {
@@ -39,25 +40,33 @@ function MessageItem(
                     />
                 )}
                 <div id="message-name">
-                    <ResizableInput value={messageWrapper.message.name}
-                        onChange={e => 
-                        setMessageWrapper({ 
-                            message: { ...messageWrapper.message, name: e.target.value }, 
-                            toggled: messageWrapper.toggled,
-                            selected: messageWrapper.selected 
-                        })
-                    } />
+                    {toggleEdit ? (
+                        <ResizableInput value={messageWrapper.message.name}
+                            onChange={e => 
+                            setMessageWrapper({ 
+                                message: { ...messageWrapper.message, name: e.target.value }, 
+                                toggled: messageWrapper.toggled,
+                                selected: messageWrapper.selected 
+                            })
+                        } />
+                    ) : (
+                        <span>{messageWrapper.message.name}</span>
+                    )}
                 </div>
                 <div>{messageWrapper.message.multiplexed ? "Multiplexed" : "Not Multiplexed"}</div>
                 <div>
-                    <ResizableInput value={messageWrapper.message.arb_id.toString()}
-                        onChange={e => 
-                        setMessageWrapper({ 
-                            message: { ...messageWrapper.message, arb_id: parseInt(e.target.value) }, // TODO: Add validation, error handling
-                            toggled: messageWrapper.toggled,
-                            selected: messageWrapper.selected
-                        }) 
-                    } />
+                    {toggleEdit ? (
+                        <ResizableInput value={messageWrapper.message.arb_id.toString()}
+                            onChange={e => 
+                            setMessageWrapper({ 
+                                message: { ...messageWrapper.message, arb_id: parseInt(e.target.value) }, 
+                                toggled: messageWrapper.toggled,
+                                selected: messageWrapper.selected 
+                            })
+                        } />
+                    ) : (
+                        <span>{messageWrapper.message.arb_id}</span>
+                    )}
                 </div>
             </div>
             {messageWrapper.toggled && (
