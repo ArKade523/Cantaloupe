@@ -7,15 +7,14 @@ import Toggle from '../components/Toggle';
 import { faPen, faStop } from '@fortawesome/free-solid-svg-icons';
 
 const initialMessages: Message[] = [
-    { name: 'Message 1', multiplexed: false, arb_id: 123, signals: [
-        { name: 'Signal 1', start_bit: 0, size: 8, endianess: 'big', is_signed: false, factor: 1, offset: 0, min: 0, max: 255 },
-        { name: 'Signal 2', start_bit: 8, size: 8, endianess: 'big', is_signed: false, factor: 1, offset: 0, min: 0, max: 255 },
+    { name: 'Message 1', arb_id: 123, size: 32, transmitter: "None", signals: [
+        { name: "Sig 1", bit_offset: 0, length: 8, intern_id: 0, multiplexed: false, signed: false, scale: 1, offset: 0, max_value: 255, multiplexor: false, multiplexor_id: null, multiplexor_value: null },
+        { name: "Sig 2", bit_offset: 0, length: 8, intern_id: 1, multiplexed: false, signed: false, scale: 1, offset: 0, max_value: 255, multiplexor: false, multiplexor_id: null, multiplexor_value: null },
+        { name: "Sig 3", bit_offset: 0, length: 8, intern_id: 2, multiplexed: false, signed: false, scale: 1, offset: 0, max_value: 255, multiplexor: false, multiplexor_id: null, multiplexor_value: null },
     ] },
-    { name: 'Message 2', multiplexed: true, arb_id: 456, signals: [] },
-    { name: 'Message 3', multiplexed: true, arb_id: 0, signals: [] },
-    { name: 'Message 4', multiplexed: true, arb_id: 1, signals: [] },
-    { name: 'Message 5', multiplexed: true, arb_id: 2, signals: [] },
-    { name: 'Message 6', multiplexed: true, arb_id: 3, signals: [] },
+    { name: 'Message 2', arb_id: 456, size: 32, transmitter: "None", signals: [
+        { name: "Sig 4", bit_offset: 0, length: 8, intern_id: 0, multiplexed: false, signed: false, scale: 1, offset: 0, max_value: 255, multiplexor: false, multiplexor_id: null, multiplexor_value: null },
+    ] },
 ];
 
 function DBCEditor() {
@@ -34,10 +33,6 @@ function DBCEditor() {
 
     const messageWrappersRef = useRef(messageWrappers);
     const messageListRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        messageWrappersRef.current = messageWrappers;
-      }, [messageWrappers]);
 
     const setMessageWrapper = (index: number, newMessageWrapper: MessageWrapper) => {
         setMessageWrappers(prevWrappers =>
@@ -125,6 +120,10 @@ function DBCEditor() {
     };
 
     useEffect(() => {
+        messageWrappersRef.current = messageWrappers;
+    }, [messageWrappers]);
+
+    useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
 
         // Attach click listener to the container
@@ -142,8 +141,8 @@ function DBCEditor() {
                     <Toggle onToggle={() => {setToggleEdit(!toggleEdit)}} 
                         isToggled={toggleEdit} 
                         onSVG={faPen} 
-                        offSVG={faStop} 
-                        color={toggleEdit ? '#495' : '#f54'}
+                        offSVG={faPen} 
+                        color="#485"
                         fontSize="2rem"
                     />
                     <div className="tool-section-subgroup">
@@ -172,6 +171,10 @@ function DBCEditor() {
                             color={toggleEdit ? 'green' : 'red'}
                         />
                     </div>
+                </div>
+                <div className="divider"></div>
+                <div className="tool-section">
+                    <button onClick={handleDeselectAll}>Deselect All</button>
                 </div>
             </div>
             <div className="message-list">

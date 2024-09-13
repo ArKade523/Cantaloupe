@@ -6,15 +6,11 @@ function SignalItem ({ signal }: { signal: Signal }) {
     return (
         <>
             <div className="signal-item">
-                <h3>{signal.name}</h3>
-                <p>{signal.start_bit}</p>
-                <p>{signal.size}</p>
-                <p>{signal.endianess}</p>
-                <p>{signal.is_signed ? "Signed" : "Unsigned"}</p>
-                <p>{signal.factor}</p>
-                <p>{signal.offset}</p>
-                <p>{signal.min}</p>
-                <p>{signal.max}</p>
+                <span>{signal.name}</span>
+                <span>{signal.bit_offset}</span>
+                <span>{signal.length}</span>
+                <span>{signal.scale}</span>
+                <span>{signal.max_value}</span>
             </div>
         </>
     )

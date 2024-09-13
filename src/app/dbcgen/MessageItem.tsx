@@ -53,7 +53,21 @@ function MessageItem({
                         <span>{messageWrapper.message.name}</span>
                     )}
                 </div>
-                <div>{messageWrapper.message.multiplexed ? "Multiplexed" : "Not Multiplexed"}</div>
+                <div>
+                    {toggleEdit ? (
+                        <ResizableInput value={messageWrapper.message.transmitter}
+                            onChange={e => 
+                            setMessageWrapper({ 
+                                message: { ...messageWrapper.message, transmitter: e.target.value }, 
+                                toggled: messageWrapper.toggled,
+                                selected: messageWrapper.selected 
+                            })
+                        } />
+
+                    ) : (
+                        <span>{messageWrapper.message.transmitter}</span>
+                    )}
+                </div>
                 <div>
                     {toggleEdit ? (
                         <ResizableInput value={messageWrapper.message.arb_id.toString()}

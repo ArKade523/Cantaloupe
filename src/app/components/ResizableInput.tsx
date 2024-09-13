@@ -17,7 +17,7 @@ const ResizableInput: React.FC<ResizableInputProps> = ({ value, onChange }) => {
     }, [value]); // Recalculate width whenever the value changes
 
     return (
-        <div style={{ display: 'inline-block', position: 'relative' }}>
+        <div style={{ display: 'inline-block', position: 'relative', margin: 0, padding: 0 }}>
             {/* Hidden span to calculate text width */}
             <span
                 ref={spanRef}
