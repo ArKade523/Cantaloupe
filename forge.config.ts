@@ -10,12 +10,13 @@ import dotenv from 'dotenv';
 import { PublisherS3 } from '@electron-forge/publisher-s3'; // Add this import statement
 
 dotenv.config();
-console.log(process.env);
 
 const config: ForgeConfig = {
   packagerConfig: {
-    asar: true,
-    osxSign: {}, // Will need to sign dylib files when we have them. i think.
+    asar: false,
+    osxSign: {
+        identity: process.env.APPLE_IDENTITY,
+    },
     osxNotarize: {
         appleId: process.env.APPLE_ID,
         appleIdPassword: process.env.APPLE_PASSWORD,
@@ -38,7 +39,7 @@ const config: ForgeConfig = {
       build: [
         {
           // `entry` is just an alias for `build.lib.entry` in the corresponding file of `config`.
-          entry: 'src/main.ts',
+          entry: 'src/backend/main.ts',
           config: 'vite.main.config.ts',
         },
         {
