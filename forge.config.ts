@@ -7,16 +7,30 @@ import { VitePlugin } from '@electron-forge/plugin-vite';
 import { FusesPlugin } from '@electron-forge/plugin-fuses';
 import { FuseV1Options, FuseVersion } from '@electron/fuses';
 import dotenv from 'dotenv';
+import { PublisherS3 } from '@electron-forge/publisher-s3'; // Add this import statement
 
 dotenv.config();
+console.log(process.env);
 
 const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
-    osxSign: {},
+    osxSign: {}, // Will need to sign dylib files when we have them. i think.
+    osxNotarize: {
+        appleId: process.env.APPLE_ID,
+        appleIdPassword: process.env.APPLE_PASSWORD,
+        teamId: process.env.APPLE_TEAM_ID
+    }
   },
   rebuildConfig: {},
   makers: [new MakerSquirrel({}), new MakerZIP({}, ['darwin']), new MakerRpm({}), new MakerDeb({})],
+  publishers: [
+    new PublisherS3({
+        bucket: 'cantaloupe-update-bucket',
+        region: 'us-east-2',
+        public: true,
+    })
+  ],
   plugins: [
     new VitePlugin({
       // `build` can specify multiple entry builds, which can be Main process, Preload scripts, Worker process, etc.
