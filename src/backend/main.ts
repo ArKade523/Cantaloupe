@@ -36,10 +36,8 @@ app.on('ready', () => {
     createWindow()
 
     autoUpdater.setFeedURL({
-        provider: 's3',
-        bucket: 'cantaloupe-update-bucket',
-        region: 'us-east-2'
-    } as any);
+        url: 'https://cantaloupe-update-bucket.s3.us-east-2.amazonaws.com',
+    });
     autoUpdater.checkForUpdates();
 });
 
