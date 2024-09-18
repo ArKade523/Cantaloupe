@@ -1,20 +1,21 @@
-import { app, dialog, BrowserWindow, autoUpdater } from 'electron';
+import { app, dialog, BrowserWindow } from 'electron';
+import { autoUpdater } from 'electron-updater';
 import path from 'path';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
-  app.quit();
+    app.quit();
 }
 
 const createWindow = () => {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 2560,
+        height: 1440,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true,  // Required for security
-            nodeIntegration: true 
+            nodeIntegration: false
         },
     });
 
@@ -26,7 +27,8 @@ const createWindow = () => {
     }
 
     // Open the DevTools.
-    mainWindow.webContents.openDevTools();
+    if (process.env.NODE_ENV === 'development')
+        mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
@@ -36,9 +38,14 @@ app.on('ready', () => {
     createWindow()
 
     autoUpdater.setFeedURL({
-        url: 'https://cantaloupe-update-bucket.s3.us-east-2.amazonaws.com/cantaloupe/darwin/arm64/cantaloupe-darwin-arm64-0.0.1.zip',
+        provider: 's3',
+        bucket: 'cantaloupe-update-bucket',
+        region: 'us-east-2',
+        path: `cantaloupe/${process.platform}/${process.arch}/`,
+
+        // url: 'https://cantaloupe-update-bucket.s3.us-east-2.amazonaws.com/cantaloupe/darwin/arm64/cantaloupe-darwin-arm64-0.0.1.zip',
     });
-    autoUpdater.checkForUpdates();
+    autoUpdater.checkForUpdatesAndNotify();
 });
 
 autoUpdater.on('update-available', () => {
