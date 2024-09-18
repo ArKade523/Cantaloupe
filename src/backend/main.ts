@@ -36,7 +36,7 @@ app.on('ready', () => {
     createWindow()
 
     autoUpdater.setFeedURL({
-        url: 'https://cantaloupe-update-bucket.s3.us-east-2.amazonaws.com',
+        url: 'https://cantaloupe-update-bucket.s3.us-east-2.amazonaws.com/cantaloupe/darwin/arm64/cantaloupe-darwin-arm64-0.0.1.zip',
     });
     autoUpdater.checkForUpdates();
 });
