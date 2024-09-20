@@ -31,11 +31,11 @@ pipelines:
             - npm run publish:linux
           artifacts:
             - out/**
-      - step:
-          name: publish-mac
-          runs-on:
-            - macos
-          script:
-            - npm run publish:mac
-          artifacts:
-            - out/**
+      # - step:
+      #     name: publish-mac
+      #     runs-on:
+      #       - macos
+      #     script:
+      #       - npm run publish:mac
+      #     artifacts:
+      #       - out/**
