@@ -18,11 +18,24 @@ pipelines:
             - dpkg --add-architecture i386
             - apt-get update
             - apt-get install -y wine32 wine wine64 libwine mono-devel rpm dpkg fakeroot
-    - step:
-        name: publish 
-        caches:
-          - node
-        script:
-          - npm run publish:all
-        artifacts:
-          - out/**
+    - parallel:
+      - step:
+          name: publish-win
+          script:
+            - npm run publish:win
+          artifacts:
+            - out/**
+      - step:
+          name: publish-linux
+          script:
+            - npm run publish:linux
+          artifacts:
+            - out/**
+      - step:
+          name: publish-mac
+          runs-on:
+            - macos
+          script:
+            - npm run publish:mac
+          artifacts:
+            - out/**
