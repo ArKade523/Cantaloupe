@@ -12,7 +12,7 @@ pipelines:
       - step:
           name: Install package dependencies
           caches:
-            - debian
+            - docker
           script:
             - apt-get update
             - apt-get install -y wine mono rpm dpkg fakeroot
