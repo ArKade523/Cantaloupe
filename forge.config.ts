@@ -26,7 +26,7 @@ const config: ForgeConfig = {
   rebuildConfig: {},
   makers: [new MakerSquirrel({}), new MakerZIP(
     (arch: string) => ({
-        macUpdateManifestBaseUrl: `https://cantaloupe-update-bucket.s3.us-east-2.amazonaws.com/cantaloupe/darwin/${arch}/`,
+        macUpdateManifestBaseUrl: `https://cantaloupe-update-bucket.s3.us-east-2.amazonaws.com/cantaloupe/darwin/${arch}`,
     })
   , ['darwin']), new MakerRpm({}), new MakerDeb({})],
   publishers: [

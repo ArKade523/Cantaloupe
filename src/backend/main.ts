@@ -1,6 +1,8 @@
 import { app, dialog, BrowserWindow } from 'electron';
-import { autoUpdater } from 'electron-updater';
 import path from 'path';
+import { updateElectronApp, UpdateSourceType } from 'update-electron-app';
+import log from 'electron-log';
+log.transports.file.level = 'debug';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -12,6 +14,8 @@ const createWindow = () => {
     const mainWindow = new BrowserWindow({
         width: 2560,
         height: 1440,
+        frame: false,
+        titleBarStyle: 'hiddenInset',
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true,  // Required for security
@@ -37,38 +41,13 @@ const createWindow = () => {
 app.on('ready', () => {
     createWindow()
 
-    autoUpdater.setFeedURL({
-        provider: 's3',
-        bucket: 'cantaloupe-update-bucket',
-        region: 'us-east-2',
-        path: `cantaloupe/${process.platform}/${process.arch}/`,
-
-        // url: 'https://cantaloupe-update-bucket.s3.us-east-2.amazonaws.com/cantaloupe/darwin/arm64/cantaloupe-darwin-arm64-0.0.1.zip',
-    });
-    autoUpdater.checkForUpdatesAndNotify();
-});
-
-autoUpdater.on('update-available', () => {
-    dialog.showMessageBox({
-        type: 'info',
-        title: 'Update Available',
-        message: 'A new update is available. Downloading now...',
-    });
-});
-
-autoUpdater.on('update-downloaded', () => {
-    dialog.showMessageBox({
-        type: 'info',
-        title: 'Update Ready',
-        message: 'A new update is ready. It will be installed on restart. Restart now?',
-        buttons: ['Restart', 'Later'],
-    }).then((result) => {
-        if (result.response === 0) autoUpdater.quitAndInstall();
-    });
-});
-
-autoUpdater.on('error', (error) => {
-    dialog.showErrorBox('Error', error == null ? 'unknown' : (error.stack || error).toString());
+    updateElectronApp({
+        updateSource: {
+            type: UpdateSourceType.StaticStorage,
+            baseUrl: `https://cantaloupe-update-bucket.s3.amazonaws.com/cantaloupe/${process.platform}/${process.arch}`
+        },
+        logger: process.env.NODE_ENV === 'development' && log
+    })
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common

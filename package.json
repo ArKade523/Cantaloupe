@@ -1,8 +1,8 @@
 {
   "name": "cantaloupe",
-  "productName": "cantaloupe",
-  "version": "0.0.1",
-  "description": "My Electron application description",
+  "productName": "Cantaloupe",
+  "version": "0.0.3",
+  "description": "Cantaloupe: a simple, cross-platform CAN bus analyzer",
   "main": ".vite/build/main.js",
   "scripts": {
     "build:css": "postcss src/index.css -o dist/output.css --watch",
@@ -34,6 +34,7 @@
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
     "electron": "32.0.1",
+    "electron-log": "^5.2.0",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1",
     "postcss": "^8.4.44",
@@ -56,7 +57,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "electron-squirrel-startup": "^1.0.1",
-    "electron-updater": "^6.3.4",
-    "react-beautiful-dnd": "^13.1.1"
+    "react-beautiful-dnd": "^13.1.1",
+    "update-electron-app": "^3.0.0"
   }
 }
