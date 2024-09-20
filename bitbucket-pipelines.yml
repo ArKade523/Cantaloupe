@@ -13,6 +13,9 @@ pipelines:
           name: Install package dependencies
           caches:
             - node
+            apt-cache: /var/cache/apt
+            usr-bin: /usr/bin
+            bin: /bin
           script:
             - apt-get update && apt-get install -y gnupg2 software-properties-common
             - dpkg --add-architecture i386
@@ -21,12 +24,22 @@ pipelines:
     - parallel:
       - step:
           name: publish-win
+          caches:
+            - node
+            apt-cache: /var/cache/apt
+            usr-bin: /usr/bin
+            bin: /bin
           script:
             - npm run publish:win
           artifacts:
             - out/**
       - step:
           name: publish-linux
+          caches:
+            - node
+            apt-cache: /var/cache/apt
+            usr-bin: /usr/bin
+            bin: /bin
           script:
             - npm run publish:linux
           artifacts:
