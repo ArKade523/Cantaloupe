@@ -4,18 +4,18 @@ pipelines:
   default:
     - parallel:
       - step:
-        name: Install node dependencies
-        caches:
-          - node
-        script:
-          - npm install
+          name: Install node dependencies
+          caches:
+            - node
+          script:
+            - npm install
       - step:
-        name: Install package dependencies
-        caches:
-          - debian
-        script:
-          - apt-get update
-          - apt-get install -y wine mono rpm dpkg fakeroot
+          name: Install package dependencies
+          caches:
+            - debian
+          script:
+            - apt-get update
+            - apt-get install -y wine mono rpm dpkg fakeroot
     - step:
         name: publish 
         caches:
