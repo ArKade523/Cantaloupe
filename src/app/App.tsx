@@ -5,7 +5,7 @@ import Pages from '../types/Pages'
 import LiveTraffic from './live_traffic/LiveTraffic'
 
 function App() {
-    const [currentPage, setCurrentPage] = React.useState(Pages.DBCEDITOR)
+    const [currentPage, setCurrentPage] = React.useState(Pages.LIVE_TRAFFIC)
 
     return (
         <>

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Toggle from "../components/Toggle";
-import { faChartBar, faChartLine, faChartPie, faFile, faFilter, faGauge, faList,
-         faNetworkWired, faPlay, faSatelliteDish, faSave, faSearch, faShare, 
-         faStar, faStop, faTable, faTrash } 
+import { faChartBar, faChartLine, faChartPie, faCircle, faFile, faFilter, faGauge, faList,
+         faNetworkWired, faPlay, faRecordVinyl, faSatelliteDish, faSave, faSearch, faShare, 
+         faStar, faStop, faTable, faTrash, 
+         faXmarkCircle} 
     from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -10,6 +11,8 @@ function LiveTraffic() {
     const [isRecording, setIsRecording] = useState(false);
     const [viewCount, setViewCount] = useState(1);
     const [view, setView] = useState(0);
+    const [activeBuses, setActiveBuses] = useState([0, 1]);
+    const [activeDBCs, setActiveDBCs] = useState(["test_dbc1.dbc", "test_dbc2.dbc"]);
 
     return (
         <div className="inner-application">
@@ -154,7 +157,53 @@ function LiveTraffic() {
                 <button onClick={() => setViewCount(viewCount + 1)}>+</button>
             </div>
             <div className="traffic">
+                <div className="status">
+                    {isRecording && (
+                        <div>
+                            <FontAwesomeIcon icon={faRecordVinyl} color="#e56" fixedWidth />
+                            <span style={{fontWeight: "bold"}}>Showing Live Capture Data</span>
+                        </div>
+                    )}
+                    <div>
+                        <span><em>Data from Buses: </em></span>
+                        {activeBuses.map((bus, i) => (
+                            <span className="bus" key={i}>Bus {bus + 1}
+                                <button className="bus-list-item" onClick={() => {
+                                    setActiveBuses(activeBuses.filter(b => b !== bus));
+                                }}>
+                                    <FontAwesomeIcon icon={faXmarkCircle} />
+                                </button>
+                            </span>
+                        ))}
+                        <span className="bus">
+                            <button onClick={() => {
+                                setActiveBuses([...activeBuses, activeBuses.length]);
+                            }}>
+                                +
+                            </button>
+                        </span>
+                    </div>
+                    <div>
+                        <span><em>DBC Interpretation from: </em></span>
+                        {activeDBCs.map((dbc, i) => (
+                            <span className="bus" key={i}>{dbc}
+                                <button className="bus-list-item" onClick={() => {
+                                    setActiveDBCs(activeDBCs.filter(d => d !== dbc));
+                                }}>
+                                    <FontAwesomeIcon icon={faXmarkCircle} />
+                                </button>
+                            </span>
+                        ))}
+                        <span className="bus">
+                            <button onClick={() => {
+                                setActiveDBCs([...activeDBCs, `test_dbc${activeDBCs.length + 1}.dbc`]);
+                            }}>+</button>
+                        </span>
+                    </div>
+                </div>
+                <div className="message-list">
 
+                </div>
             </div>
         </div>
     );
