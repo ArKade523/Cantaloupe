@@ -11,12 +11,18 @@ pipelines:
             - npm install
       - step:
           name: Install package dependencies
+          caches:
+            - node
           script:
+            - apt-get update && apt-get install -y gnupg2 software-properties-common
+            - dpkg --add-architecture i386
             - apt-get update
-            - apt-get install -y wine mono-devel rpm dpkg fakeroot
+            - apt-get install -y wine32 wine64 mono-devel rpm dpkg fakeroot
     - step:
         name: publish 
         caches:
           - node
         script:
           - npm run publish:all
+        artifacts:
+          - dist/**
