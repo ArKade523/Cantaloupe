@@ -2,15 +2,23 @@ image: node:18
 
 pipelines:
   default:
+    - parallel:
       - step:
-          name: Install dependencies
-          caches:
-            - node
-          script:
-            - npm install
+        name: Install node dependencies
+        caches:
+          - node
+        script:
+          - npm install
       - step:
-          name: publish 
-          caches:
-            - node
-          script:
-            - npm run publish:all
+        name: Install package dependencies
+        caches:
+          - debian
+        script:
+          - apt-get update
+          - apt-get install -y wine mono rpm dpkg fakeroot
+    - step:
+        name: publish 
+        caches:
+          - node
+        script:
+          - npm run publish:all
