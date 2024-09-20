@@ -4,6 +4,7 @@
   "version": "0.0.3",
   "description": "Cantaloupe: a simple, cross-platform CAN bus analyzer",
   "main": ".vite/build/main.js",
+  "license": "UNLICENSED",
   "scripts": {
     "build:css": "postcss src/index.css -o dist/output.css --watch",
     "dev": "concurrently \"vite --config vite.renderer.config.ts\" \"cross-env NODE_ENV=development electron .\"",
@@ -11,6 +12,11 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
+    "publish:win": "electron-forge publish --platform=win32 --arch=x64",
+    "publish:mac": "electron-forge publish --platform=darwin --arch=x64",
+    "publish:linux": "electron-forge publish --platform=linux",
+    "publish:all": "npm run publish:win && npm run publish:mac && npm run publish:linux",
+    "publish:dry-run": "electron-forge publish --dry-run",
     "lint": "eslint --ext .ts,.tsx ."
   },
   "devDependencies": {

@@ -7,7 +7,7 @@ import { VitePlugin } from '@electron-forge/plugin-vite';
 import { FusesPlugin } from '@electron-forge/plugin-fuses';
 import { FuseV1Options, FuseVersion } from '@electron/fuses';
 import dotenv from 'dotenv';
-import { PublisherS3 } from '@electron-forge/publisher-s3'; // Add this import statement
+import { PublisherS3 } from '@electron-forge/publisher-s3'; 
 
 dotenv.config();
 
@@ -24,11 +24,25 @@ const config: ForgeConfig = {
     }
   },
   rebuildConfig: {},
-  makers: [new MakerSquirrel({}), new MakerZIP(
-    (arch: string) => ({
-        macUpdateManifestBaseUrl: `https://cantaloupe-update-bucket.s3.us-east-2.amazonaws.com/cantaloupe/darwin/${arch}`,
+  makers: [
+    new MakerSquirrel({
+        authors: 'Kade Angell, Taylor Rowser',
+    }), 
+    new MakerZIP(
+        (arch: string) => ({
+            macUpdateManifestBaseUrl: `https://cantaloupe-update-bucket.s3.us-east-2.amazonaws.com/cantaloupe/darwin/${arch}`,
     })
-  , ['darwin']), new MakerRpm({}), new MakerDeb({})],
+    , ['darwin']), 
+    new MakerRpm({
+        options: {
+            homepage: 'https://sprig.dev',
+        }
+    }), 
+    new MakerDeb({
+        options: {
+            homepage: 'https://sprig.dev',
+        }
+    })],
   publishers: [
     new PublisherS3({
         bucket: 'cantaloupe-update-bucket',
