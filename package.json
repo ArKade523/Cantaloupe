@@ -15,7 +15,7 @@
     "publish:win": "electron-forge publish --platform=win32 --arch=x64",
     "publish:mac": "electron-forge publish --platform=darwin --arch=x64",
     "publish:linux": "electron-forge publish --platform=linux",
-    "publish:all": "npm run publish:win && npm run publish:mac && npm run publish:linux",
+    "publish:all": "concurrently --names 'win,mac,linux' -c 'cyan,yellow,green' \"npm run publish:win\" \"npm run publish:mac\" \"npm run publish:linux\"",
     "publish:dry-run": "electron-forge publish --dry-run",
     "lint": "eslint --ext .ts,.tsx ."
   },

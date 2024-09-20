@@ -17,7 +17,7 @@ pipelines:
             - apt-get update && apt-get install -y gnupg2 software-properties-common
             - dpkg --add-architecture i386
             - apt-get update
-            - apt-get install -y wine32 wine64 mono-devel rpm dpkg fakeroot
+            - apt-get install -y wine32 wine wine64 libwine mono-devel rpm dpkg fakeroot
     - step:
         name: publish 
         caches:
@@ -25,4 +25,4 @@ pipelines:
         script:
           - npm run publish:all
         artifacts:
-          - dist/**
+          - out/**
