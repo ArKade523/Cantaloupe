@@ -2,16 +2,15 @@ image: node:18
 
 pipelines:
   default:
-    - parallel:
-        - step:
-            name: Install dependencies
-            caches:
-              - node
-            script:
-              - npm install
-        - step:
-            name: publish 
-            caches:
-              - node
-            script:
-              - npm run publish:all
+      - step:
+          name: Install dependencies
+          caches:
+            - node
+          script:
+            - npm install
+      - step:
+          name: publish 
+          caches:
+            - node
+          script:
+            - npm run publish:all
