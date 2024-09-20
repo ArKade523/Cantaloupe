@@ -9,46 +9,42 @@ pipelines:
             - node
           script:
             - npm install
+
       - step:
           name: Install package dependencies
           caches:
             - node
-            apt-cache: /var/cache/apt
-            usr-bin: /usr/bin
-            bin: /bin
+            - apt-cache # Custom cache for apt
           script:
-            - apt-get update && apt-get install -y gnupg2 software-properties-common
+            - apt-get update
+            - apt-get install -y gnupg2 software-properties-common
             - dpkg --add-architecture i386
             - apt-get update
             - apt-get install -y wine32 wine wine64 libwine mono-devel rpm dpkg fakeroot
+          artifacts:
+            - /var/cache/apt/**
+
     - parallel:
       - step:
           name: publish-win
           caches:
             - node
-            apt-cache: /var/cache/apt
-            usr-bin: /usr/bin
-            bin: /bin
+            - apt-cache # Use cached apt packages
           script:
             - npm run publish:win
           artifacts:
             - out/**
+
       - step:
           name: publish-linux
           caches:
             - node
-            apt-cache: /var/cache/apt
-            usr-bin: /usr/bin
-            bin: /bin
+            - apt-cache
           script:
             - npm run publish:linux
           artifacts:
             - out/**
-      # - step:
-      #     name: publish-mac
-      #     runs-on:
-      #       - macos
-      #     script:
-      #       - npm run publish:mac
-      #     artifacts:
-      #       - out/**
+
+definitions:
+  caches:
+    apt-cache: /var/cache/apt  # Cache for apt packages
