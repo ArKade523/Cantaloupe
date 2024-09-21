@@ -2,59 +2,28 @@ image: node:18
 
 pipelines:
   default:
-    - parallel:
-      - step:
-          name: Install node dependencies
-          caches:
-            - node
-          script:
-            - npm install
-
-      - step:
-          name: Install package dependencies
-          caches:
-            - node
-            - apt-cache # Custom cache for apt
-          script:
-            - apt-get update
-            - apt-get install -y gnupg2 software-properties-common
-            - dpkg --add-architecture i386
-            - apt-get update
-            - apt-get install -y wine32 wine wine64 libwine mono-devel rpm dpkg fakeroot
-          artifacts:
-            - /var/cache/apt/**
-            - /usr/bin/**
-            - /usr/lib/**
+    - step:
+        name: Install node dependencies
+        caches:
+          - node
+        script:
+          - npm install
 
     - parallel:
       - step:
           name: publish-win
+          run-on:
+            - windows
           caches:
-            - apt-cache # Use cached apt packages
-            - usr-bin
-            - usr-lib
+            - node
           script:
-            - wine --version
-            - mono --version
             - npm run publish:win
-          artifacts:
-            - out/**
 
       - step:
           name: publish-linux
           caches:
             - node
-            - apt-cache
-            - usr-bin
-            - usr-lib
           script:
+            - apt-get install -y rpm
             - rpmbuild --version
             - npm run publish:linux
-          artifacts:
-            - out/**
-
-definitions:
-  caches:
-    apt-cache: /var/cache/apt  # Cache for apt packages
-    usr-bin: /usr/bin
-    usr-lib: /usr/lib/
