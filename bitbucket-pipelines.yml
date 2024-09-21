@@ -23,10 +23,10 @@ pipelines:
             - apt-get install -y wine32 wine wine64 libwine mono-devel rpm dpkg fakeroot
           artifacts:
             - /var/cache/apt/**
-            - /usr/bin/mono*
-            - /usr/lib/*mono*/**
-            - /usr/lib/*wine*/**
-            - /usr/bin/wine*
+            - /usr/bin/wine32
+            - /usr/bin/wine64
+            - /usr/bin/mono
+            - /usr/lib/i386-linux-gnu/**
 
     - parallel:
       - step:
@@ -35,6 +35,8 @@ pipelines:
             - node
             - apt-cache # Use cached apt packages
           script:
+            - wine --version
+            - mono --version
             - npm run publish:win
           artifacts:
             - out/**
@@ -45,6 +47,7 @@ pipelines:
             - node
             - apt-cache
           script:
+            - rpmbuild --version
             - npm run publish:linux
           artifacts:
             - out/**
