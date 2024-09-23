@@ -1,19 +1,39 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Message, MessageWrapper } from '../../types/Message'
-// import Signal from '../../types/Signal'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import MessageItem from './MessageItem';
 import Toggle from '../components/Toggle';
 import { faPen, faStop } from '@fortawesome/free-solid-svg-icons';
+import Signal from '../../types/Signal';
 
 const initialMessages: Message[] = [
     { name: 'Message 1', arb_id: 123, size: 32, transmitter: "None", signals: [
-        { name: "Sig 1", bit_offset: 0, length: 8, intern_id: 0, multiplexed: false, signed: false, scale: 1, offset: 0, max_value: 255, multiplexor: false, multiplexor_id: null, multiplexor_value: null },
-        { name: "Sig 2", bit_offset: 0, length: 8, intern_id: 1, multiplexed: false, signed: false, scale: 1, offset: 0, max_value: 255, multiplexor: false, multiplexor_id: null, multiplexor_value: null },
-        { name: "Sig 3", bit_offset: 0, length: 8, intern_id: 2, multiplexed: false, signed: false, scale: 1, offset: 0, max_value: 255, multiplexor: false, multiplexor_id: null, multiplexor_value: null },
-    ] },
+        new Signal({ name: "Sig 1", bitOffset: 0, length: 8, internId: 0, 
+                    signed: false, scale: 1, offset: 0, multiplexorId: null, 
+                    multiplexorValue: null, multiplexerIndicator: null, unit: '',
+                    receivers: [], byteOrder: 'Motorola' }),
+        new Signal({ name: "Sig 2", bitOffset: 8, length: 8, internId: 0, 
+                    signed: false, scale: 1, offset: 0, multiplexorId: null, 
+                    multiplexorValue: null, multiplexerIndicator: null, unit: '',
+                    receivers: [], byteOrder: 'Motorola' }),
+        new Signal({ name: "Sig 3", bitOffset: 16, length: 8, internId: 0, 
+                    signed: false, scale: 1, offset: 0, multiplexorId: null, 
+                    multiplexorValue: null, multiplexerIndicator: null, unit: '',
+                    receivers: [], byteOrder: 'Motorola' }),
+                ] },
     { name: 'Message 2', arb_id: 456, size: 32, transmitter: "None", signals: [
-        { name: "Sig 4", bit_offset: 0, length: 8, intern_id: 0, multiplexed: false, signed: false, scale: 1, offset: 0, max_value: 255, multiplexor: false, multiplexor_id: null, multiplexor_value: null },
+        new Signal({ name: "Sig 1", bitOffset: 0, length: 8, internId: 0, 
+                    signed: false, scale: 1, offset: 0, multiplexorId: null, 
+                    multiplexorValue: null, multiplexerIndicator: null, unit: '',
+                    receivers: [], byteOrder: 'Motorola' }),
+        new Signal({ name: "Sig 2", bitOffset: 8, length: 8, internId: 0, 
+                    signed: false, scale: 1, offset: 0, multiplexorId: null, 
+                    multiplexorValue: null, multiplexerIndicator: null, unit: '',
+                    receivers: [], byteOrder: 'Motorola' }),
+        new Signal({ name: "Sig 3", bitOffset: 16, length: 8, internId: 0, 
+                    signed: false, scale: 1, offset: 0, multiplexorId: null, 
+                    multiplexorValue: null, multiplexerIndicator: null, unit: '',
+                    receivers: [], byteOrder: 'Motorola' }),
     ] },
 ];
 
@@ -128,8 +148,7 @@ function DBCEditor() {
 
         // Attach click listener to the container
         document.addEventListener('click', handleContainerClick);
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
+        return () => { window.removeEventListener('keydown', handleKeyDown);
             document.removeEventListener('click', handleContainerClick);
         }
     }, []);
@@ -177,15 +196,15 @@ function DBCEditor() {
                     <button onClick={handleDeselectAll}>Deselect All</button>
                 </div>
             </div>
-            <div className="message-list">
-                <div className="message-table-label">
-                    <th>Name</th>
-                    <th>Multiplex Status</th>
-                    <th>Arbitration ID</th>
+            <div className="table">
+                <div className="table-header table-row">
+                    <h3>Name</h3>
+                    <h3>Multiplex Status</h3>
+                    <h3>Arbitration ID</h3>
                 </div>
                 <DragDropContext onDragEnd={handleOnDragEnd}>
                     <Droppable droppableId="messages">
-                        {(provided, snapshot) => (
+                        {(provided, _) => (
                             <div ref={(el) => {
                                     messageListRef.current = el;
                                     provided.innerRef(el)

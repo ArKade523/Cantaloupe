@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "build:css": "postcss src/index.css -o dist/output.css --watch",
-    "dev": "concurrently \"vite --config vite.renderer.config.ts\" \"cross-env NODE_ENV=development electron .\"",
+    "dev": "electron-forge start",
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",

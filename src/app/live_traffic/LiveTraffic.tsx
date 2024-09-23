@@ -13,6 +13,7 @@ function LiveTraffic() {
     const [view, setView] = useState(0);
     const [activeBuses, setActiveBuses] = useState([0, 1]);
     const [activeDBCs, setActiveDBCs] = useState(["test_dbc1.dbc", "test_dbc2.dbc"]);
+    const [canMessages, setCanMessages] = useState([]);
 
     return (
         <div className="inner-application">
@@ -202,7 +203,19 @@ function LiveTraffic() {
                     </div>
                 </div>
                 <div className="message-list">
-
+                    {/* {canMessages.map((message, i) => (
+                        <div className="message" key={i}>
+                            <div className="message-header">
+                                <span className="message-id">{message.id}</span>
+                                <span className="message-timestamp">{message.timestamp}</span>
+                            </div>
+                            <div className="message-body">
+                                {message.data.map((byte, j) => (
+                                    <span key={j}>{byte}</span>
+                                ))}
+                            </div>
+                        </div>
+                    ))} */}
                 </div>
             </div>
         </div>

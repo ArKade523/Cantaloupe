@@ -7,10 +7,10 @@ function SignalItem ({ signal }: { signal: Signal }) {
         <>
             <div className="signal-item">
                 <span>{signal.name}</span>
-                <span>{signal.bit_offset}</span>
+                <span>{signal.bitOffset}</span>
                 <span>{signal.length}</span>
                 <span>{signal.scale}</span>
-                <span>{signal.max_value}</span>
+                <span>{signal.maximum}</span>
             </div>
         </>
     )

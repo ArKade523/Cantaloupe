@@ -54,65 +54,32 @@
     margin-top: auto;
 }
 
-.message-table-label {
-    position: sticky;
-    top: 0;
-    z-index: 2;
-}
-.message-details, .message-table-label {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    background-color: var(--table-background);
-    height: var(--table-row-height);
-}
-.message-details > div, .message-table-label > * {
-    padding: 0 10px;
-    text-align: left;
-    width: 100%;
-}
-.message-details input {
-    resize: none;
-    border: none;
-    background-color: var(--table-background);
-    font-family: inherit;
-    font-size: inherit;
-    height: 1.25rem; /* TODO: verify this resizes correctly */
-}
-.message-details input:focus {
-    outline: 2px solid var(--primary);
-}
-
-.message-item {
+.table {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    border: 2px solid var(--table-background);
 }
-.message-item.selected {
-    background-color: var(--secondary);
-    border: 2px solid var(--primary);
-    box-sizing: border-box;
+.table-header {
+    color: var(--text-gray);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-weight: normal; 
 }
-.message-item.selected * {
-    background-color: var(--secondary);
+.table-header > h3 {
+    font-size: 1rem;
+    font-weight: normal;
 }
-.message-item select {
-    background-color: var(--table-background);
-    border: none;
-    font-family: inherit;
-    font-size: inherit;
-    height: 1.25rem; /* TODO: verify this resizes correctly */
+.table-entry {
+    display: flex;
+    flex-direction: row;
 }
-.message-item select:focus {
-    outline: 2px solid var(--primary);
-}
-
-.message-table-label {
-    background-color: var(--background-accent);
-    color: var(--text-light);
-    padding-left: 40px;
+.table-row {
+    display: flex;
+    flex-direction: row;
+    padding: 0 .1rem;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--table-border);
+    font-weight: 300;
 }
 
 .sidebar {
@@ -162,21 +129,6 @@
 }
 .sidebar > .resizer:hover, .sidebar > .resizer.active {
     background-color: var(--primary);
-}
-
-.signal-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 1rem;
-    background-color: var(--table-background);
-    border-bottom: 1px solid var(--table-border);
-    height: 3rem;
-}
-.signal-item > p, .signal-item > h3 {
-    padding: 0 .5rem;
-    text-align: left;
-    width: 100%;
 }
 
 .status {

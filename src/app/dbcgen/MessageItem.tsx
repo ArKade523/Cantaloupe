@@ -24,21 +24,21 @@ function MessageItem({
     }
 
     return (
-        <div className={`message-item ${messageWrapper.selected ? 'selected' : ''}`}>
-            <div className="message-details">
-                {messageWrapper.message.signals.length > 0 ? (
-                    <FontAwesomeIcon 
-                        icon={faChevronDown} 
-                        onClick={handleToggle} 
-                        className={`arrow-icon ${messageWrapper.toggled ? 'flip-up' : 'flip-down'}`} 
-                    />
-                ) : (
-                    <FontAwesomeIcon 
-                        icon={faChevronDown} 
-                        className="arrow-icon" 
-                        color="#aaa"
-                    />
-                )}
+        <div className={`table-row ${messageWrapper.selected ? 'selected' : ''}`}>
+            {messageWrapper.message.signals.length > 0 ? (
+                <FontAwesomeIcon 
+                    icon={faChevronDown} 
+                    onClick={handleToggle} 
+                    className={`arrow-icon ${messageWrapper.toggled ? 'flip-up' : 'flip-down'}`} 
+                />
+            ) : (
+                <FontAwesomeIcon 
+                    icon={faChevronDown} 
+                    className="arrow-icon" 
+                    color="#aaa"
+                />
+            )}
+            <div className="table-entry">
                 <div id="message-name">
                     {toggleEdit ? (
                         <ResizableInput value={messageWrapper.message.name}
@@ -68,20 +68,20 @@ function MessageItem({
                         <span>{messageWrapper.message.transmitter}</span>
                     )}
                 </div>
-                <div>
-                    {toggleEdit ? (
-                        <ResizableInput value={messageWrapper.message.arb_id.toString()}
-                            onChange={e => 
-                            setMessageWrapper({ 
-                                message: { ...messageWrapper.message, arb_id: parseInt(e.target.value) }, 
-                                toggled: messageWrapper.toggled,
-                                selected: messageWrapper.selected 
-                            })
-                        } />
-                    ) : (
-                        <span>{messageWrapper.message.arb_id}</span>
-                    )}
-                </div>
+            </div>
+            <div>
+                {toggleEdit ? (
+                    <ResizableInput value={messageWrapper.message.arb_id.toString()}
+                        onChange={e => 
+                        setMessageWrapper({ 
+                            message: { ...messageWrapper.message, arb_id: parseInt(e.target.value) }, 
+                            toggled: messageWrapper.toggled,
+                            selected: messageWrapper.selected 
+                        })
+                    } />
+                ) : (
+                    <span>{messageWrapper.message.arb_id}</span>
+                )}
             </div>
             {messageWrapper.toggled && (
                 <div className="signals-container">
