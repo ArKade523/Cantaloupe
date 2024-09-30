@@ -2,3 +2,6 @@
 	path = src/styles/cantaloupe-styles
 	url = git@bitbucket.org:can-sandbox/cantaloupe-styles.git
 	main = main
+[submodule "src/backend/innomaker-can-mac-driver-demo"]
+	path = src/backend/innomaker-can-mac-driver-demo
+	url = git@bitbucket.org:can-sandbox/innomaker-can-mac-driver-demo.git
