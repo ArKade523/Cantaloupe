@@ -8,5 +8,8 @@ This is the frontend/UI repository for CANtaloupe.
 -   Typescript
 -   Objective-C, Swift, C++ for drivers
 
+## Demo Image
+![example image](./docs/demo_img.png)
+
 ## License
 MIT
