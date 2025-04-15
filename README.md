@@ -6,8 +6,7 @@ This is the frontend/UI repository for CANtaloupe.
 
 -   Electron
 -   Typescript
--   TBD
+-   Objective-C, Swift, C++ for drivers
 
 ## License
-
-The code in this repository is owned wholly by Kade Angell and Taylor Rowser.
+MIT
